@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Card</title>
+</head>
+<body>
+    <h1>Add New Credit Card and Bill</h1>
+    <form action="{{ url_for('add_card') }}" method="post">
+    <label for="card_name">Card Name:</label>
+    <input type="text" id="card_name" name="card_name" required><br><br>
+
+    <label for="bill_amount">Bill Amount:</label>
+    <input type="number" id="bill_amount" name="bill_amount" required><br><br>
+
+    <label for="bill_month">Bill Month:</label>
+    <input type="number" id="bill_month" name="bill_month" required><br><br>
+
+    <label for="bill_year">Bill Year:</label>
+    <input type="number" id="bill_year" name="bill_year" required><br><br>
+
+    <label for="paid">Paid:</label>
+    <input type="checkbox" id="paid" name="paid"><br><br>
+
+    <label for="paid_amount">Paid Amount:</label>
+    <input type="number" id="paid_amount" name="paid_amount"><br><br>
+
+    <button type="submit">Add Bill</button>
+</form>
+
+
+    <br><a href="{{ url_for('index') }}">Go to Dashboard</a>
+</body>
+</html>

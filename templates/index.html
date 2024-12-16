@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            color: #2a2a2a;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        select, button {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            width: 150px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Table Styles */
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action Button Styles */
+        a {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        a:hover {
+            background-color: #0b7dda;
+        }
+
+        /* Add New Card Button */
+        .add-card {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            text-align: center;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .add-card:hover {
+            background-color: #0b7dda;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table, form {
+                width: 100%;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            select, button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Credit Card Dashboard</h1>
+
+    <!-- Form to filter by Month and Year -->
+    <form method="POST">
+        <label for="month">Month: </label>
+        <select name="month" id="month">
+            <option value="">--Select Month--</option>
+            <option value="1" {% if selected_month == '1' %} selected {% endif %}>January</option>
+            <option value="2" {% if selected_month == '2' %} selected {% endif %}>February</option>
+            <option value="3" {% if selected_month == '3' %} selected {% endif %}>March</option>
+            <option value="4" {% if selected_month == '4' %} selected {% endif %}>April</option>
+            <option value="5" {% if selected_month == '5' %} selected {% endif %}>May</option>
+            <option value="6" {% if selected_month == '6' %} selected {% endif %}>June</option>
+            <option value="7" {% if selected_month == '7' %} selected {% endif %}>July</option>
+            <option value="8" {% if selected_month == '8' %} selected {% endif %}>August</option>
+            <option value="9" {% if selected_month == '9' %} selected {% endif %}>September</option>
+            <option value="10" {% if selected_month == '10' %} selected {% endif %}>October</option>
+            <option value="11" {% if selected_month == '11' %} selected {% endif %}>November</option>
+            <option value="12" {% if selected_month == '12' %} selected {% endif %}>December</option>
+        </select>
+
+        <label for="year">Year: </label>
+        <select name="year" id="year">
+            <option value="">--Select Year--</option>
+            {% for year in years %}
+                <option value="{{ year }}" {% if selected_year == year %} selected {% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <br>
+
+    <!-- Card Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Card Name</th>
+                <th>Total Bill Amount</th>
+                <th>Outstanding Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+            <tr>
+                <td>{{ card['name'] }}</td>
+                <td>{{ card['total_bill_amount'] }}</td>
+                <td>{{ card['outstanding_balance'] }}</td>
+                <td>
+                    <a href="{{ url_for('update_paid', card_id=card['id']) }}">Update Paid Amount</a>
+                    <a href="{{ url_for('delete_card', card_id=card['id']) }}" style="background-color: #f44336;">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{{ url_for('add_card') }}" class="add-card">Add New Card</a>
+</body>
+</html>

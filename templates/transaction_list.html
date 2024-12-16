@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions for {{ card.name }}</title>
+</head>
+<body>
+    <h1>Transactions for {{ card.name }}</h1>
+    <ul>
+        {% for transaction in transactions %}
+        <li>
+            <strong>{{ transaction.month }} {{ transaction.year }}</strong> - ${{ transaction.amount }}
+            {% if transaction.paid %}
+                (Paid on {{ transaction.paid_date }})
+            {% else %}
+                (Unpaid)
+                <form action="{{ url_for('update_transaction', card_id=card.id, transaction_id=transaction.id) }}" method="POST">
+                    <label>Mark as Paid:</label>
+                    <input type="checkbox" name="paid" value="1">
+                    <label>Paid Date:</label>
+                    <input type="date" name="paid_date">
+                    <button type="submit">Update</button>
+                </form>
+            {% endif %}
+            <a href="{{ url_for('delete_transaction', card_id=card.id, transaction_id=transaction.id) }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Add Latest Bill</h3>
+    <form method="POST">
+        <label>Month:</label>
+        <input type="text" name="month" required>
+        <label>Year:</label>
+        <input type="text" name="year" required>
+        <label>Amount:</label>
+        <input type="number" name="amount" required>
+        <button type="submit">Add Bill</button>
+    </form>
+
+    <!-- Button to go to Dashboard -->
+    <br>
+    <a href="{{ url_for('index') }}">
+        <button>Go to Dashboard</button>
+    </a>
+</body>
+</html>
