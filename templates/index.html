@@ -183,9 +183,14 @@
                 <td>{{ card['total_bill_amount'] }}</td>
                 <td>{{ card['outstanding_balance'] }}</td>
                 <td>
-                    <a href="{{ url_for('update_paid', card_id=card['id']) }}">Update Paid Amount</a>
-                    <a href="{{ url_for('delete_card', card_id=card['id']) }}" style="background-color: #f44336;">Delete</a>
-                </td>
+    <a href="{{ url_for('update_paid', card_id=card['id']) }}">Update Paid Amount</a>
+    <form action="{{ url_for('delete_card', card_id=card['id']) }}" method="POST" style="display:inline;">
+        <button type="submit" style="background-color: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+            Delete
+        </button>
+    </form>
+</td>
+
             </tr>
             {% endfor %}
         </tbody>
