@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+rfrom flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 
 app = Flask(__name__)
@@ -155,14 +155,14 @@ def update_paid(card_id):
 
 @app.route('/card/<int:card_id>/delete', methods=['POST'])
 def delete_card(card_id):
+    print(f"Delete request received for card ID: {card_id}")  # Debugging
     conn = get_db_connection()
-    # First, delete any transactions associated with the card
     conn.execute('DELETE FROM transactions WHERE card_id = ?', (card_id,))
-    # Now, delete the card
     conn.execute('DELETE FROM cards WHERE id = ?', (card_id,))
     conn.commit()
     conn.close()
-    return redirect(url_for('index'))  # Redirect to the homepage after deleting the card
+    return redirect(url_for('index'))
+
 
 
 
